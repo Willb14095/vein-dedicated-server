@@ -1,19 +1,19 @@
-FROM alpine:latest AS builder
+FROM cm2network/steamcmd:latest
 
-# Download SteamCMD
-RUN wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz -O /tmp/steamcmd_linux.tar.gz && \
-    mkdir -p /steamcmd && \
-    tar -xvzf /tmp/steamcmd_linux.tar.gz -C /steamcmd
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    lib32gcc-s1 lib32stdc++6 \
+    && rm -rf /var/lib/apt/lists/*
 
-FROM tobix/wine:stable
+# Create steam user
+RUN useradd -m steam
+WORKDIR /home/steam
 
-RUN useradd -m -s /bin/bash steam
+# Copy entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Copy SteamCMD from the builder stage
-COPY --from=builder --chown=steam:steam /steamcmd /home/steam/steamcmd
-
-COPY entrypoint.sh /
-
+# Switch to steam
 USER steam
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT ["/entrypoint.sh"]
