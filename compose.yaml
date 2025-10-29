@@ -1,0 +1,83 @@
+services:
+  vein-server:
+    image: wibuck/vein-dedicated-server:latest
+    container_name: vein-dedicated-server
+    restart: unless-stopped
+    ports:
+      - "7777:7777/udp"      # Game port (UDP)
+      - "27015:27015/udp"    # Steam query port (UDP) - optional but recommended
+    volumes:
+      - /vein:/home/steam/vein-dedicated-server
+    environment:
+      # === Server Info ===
+      - VEIN_SERVER_NAME=changeme
+      - VEIN_SERVER_DESCRIPTION=Welcome to my Vein server.
+      - VEIN_PASSWORD=changeme
+      - VEIN_MAX_PLAYERS=16
+
+      # === Ports (must match -p mappings) ===
+      - GAME_PORT=7777
+      - QUERY_PORT=27015
+
+      # === Admins ===
+      - SUPER_ADMIN_STEAM_IDS=
+      - ADMIN_STEAM_IDS=
+
+      # === Gameplay Core ===
+      - VEIN_PVP=true
+      - VEIN_TIME_MULTIPLIER=16.0
+      - VEIN_NIGHTTIME_MULTIPLIER=3.0
+      - VEIN_TIME_WITH_NO_PLAYERS=0.0
+
+      # === Player Stats ===
+      - VEIN_HUNGER_MULTIPLIER=1.0
+      - VEIN_THIRST_MULTIPLIER=1.0
+      - VEIN_MAX_CHARACTERS=100.0
+      - VEIN_MAX_THIRD_PERSON_DISTANCE=400
+      - VEIN_PERMADEATH=false
+      - VEIN_NO_SAVES=false
+      - VEIN_ALWAYS_BECOME_ZOMBIE=false
+
+      # === Loot & World ===
+      - VEIN_SCARCITY_DIFFICULTY=1.0
+      - VEIN_CONTAINERS_RESPAWN=true
+      - VEIN_FURNITURE_RESPAWNS=true
+      - VEIN_ITEM_ACTOR_SPAWNERS_RESPAWN=true
+      - VEIN_START_TIME=0.0
+      - VEIN_POWER_SHUTOFF_TIME=46.0
+      - VEIN_WATER_SHUTOFF_TIME=30.0
+
+      # === Base & Raiding (DECAY DISABLED) ===
+      - VEIN_BASE_RAIDING=true
+      - VEIN_OFFLINE_RAIDING=true
+      - VEIN_BUILD_OBJECT_PVP=true
+      - VEIN_BUILD_STRUCTURE_DECAY=0.0
+      - VEIN_UTILITY_CABINET_INTERVAL=0.0
+
+      # === Zombies ===
+      - VEIN_HORDES=true
+      - VEIN_ZOMBIES_CAN_CLIMB=true
+      - VEIN_ZOMBIES_HEADSHOTONLY=false
+      - VEIN_ZOMBIE_HEALTH=40.0
+      - VEIN_HEADSHOT_DAMAGE_MULTIPLIER=2.0
+      - VEIN_ZOMBIE_INFECTION_CHANCE=0.01
+      - VEIN_ZOMBIE_SPAWN_COUNT_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_SPEED_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_WALK_SPEED_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_RUNSPEED_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_CRAWL_SPEED_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_SIGHT_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_HEARING_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_DAMAGE_MULTIPLIER=1.0
+      - VEIN_ZOMBIE_WALKER_PERCENTAGE=0.8
+      - VEIN_STAGGER_ODDS=0.1
+      - VEIN_STUNLOCK_CHANCE=0.6
+      - VEIN_STUNLOCK_DURATION=2.0
+
+      # === Interaction & Misc ===
+      - VEIN_ALLOW_PICKPOCKETING=true
+      - VEIN_ALLOW_REMOTE_VIDEO=true
+      - VEIN_CLOTHING_HIDEABLE=false
+      - VEIN_PERSISTENT_CORPSES=true
+      - VEIN_VEHICLE_OUTGOING_PLAYER_DAMAGE=true
+      - VEIN_SHOW_SCOREBOARD_BADGES=1.0
